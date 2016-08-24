@@ -127,18 +127,39 @@ $(document).ready(function () {
 </div>
 <div id="desafio" class="section level2">
 <h2>Desafio</h2>
-<p>Obter as distâncias para todas as 15.509.665 combinações possíveis. A utilização de APIs, como a do Google Maps, apresenta limitações diárias de requisições.</p>
-</div>
-<div id="solucao-proposta" class="section level2">
-<h2>Solução proposta</h2>
-<ul>
-<li>Coordenadas dos municípios pelo <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a></li>
-<li>Computar as distâncias utilizando a tecnologia do projeto <a href="http://project-osrm.org/">OSRM</a></li>
-</ul>
+<p>Obter as distâncias para todas as 15.509.665 combinações possíveis. A utilização de APIs como a do Google Maps apresenta limitações diárias de requisições.</p>
 </div>
 <div id="apoio" class="section level2">
 <h2>Apoio</h2>
 <p>Recebemos U$ 100 em créditos da <a href="https://www.digitalocean.com/">Digital Ocean</a> para hospedarmos um servidor.</p>
+</div>
+<div id="metodologia" class="section level2">
+<h2>Metodologia</h2>
+<p>Com os créditos fornecidos pela Digital Ocean, foi criado um servidor Ubuntu 16.04 para hospedagem do serviço de roteirização <a href="http://project-osrm.org/">OSRM</a> e para execução de scripts do software <a href="https://www.r-project.org/">R</a>, através do <a href="https://www.rstudio.com/products/rstudio/download-server/">RStudio Server</a> edição comunitária.</p>
+<div id="municipios" class="section level3">
+<h3>Municípios</h3>
+<p>Foi considerada a lista de municípios brasileiros conforme a Divisão Territorial Brasileira (DTB/IBGE) de 2015 <a href="ftp://geoftp.ibge.gov.br/organizacao_do_territorio/estrutura_territorial/divisao_territorial/2015/dtb_2015.zip">link</a>.</p>
+</div>
+<div id="coordenadas-dos-municipios" class="section level3">
+<h3>Coordenadas dos municípios</h3>
+<p>Para o cômputo da rotas, é necessário informar as coordenadas de origem e destino dos municípios. Importante notar que as coordenadas dos centróides dos municípios não fazem sentido para o cômputo de rotas, sendo necessária a utilização de coordenadas referentes ao centro econômico ou viário do município.</p>
+<p>Desta forma, estas coordenadas foram obtidas junto ao serviço <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a> através da API disponibilizada, respeitando as <a href="http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy">limitações de uso</a>.</p>
+<p>Exemplo de query utilizando a API:</p>
+<pre><code>http://nominatim.openstreetmap.org/search?city=Juiz+de+Fora&amp;state=Minas+Gerais&amp;country=Brazil&amp;format=json</code></pre>
+<p>Os municípios não localizados pelo Nominatim tiveram suas coordenadas obtidas através da API do Google Maps, utilizando-se o pacote do R <code>ggmaps</code>.</p>
+</div>
+<div id="computo-das-rotas" class="section level3">
+<h3>Cômputo das rotas</h3>
+<div id="base-cartografica" class="section level4">
+<h4>Base cartográfica</h4>
+<p>O OSRM adota como base cartográfica as camadas do projeto <a href="http://www.openstreetmap.org/">Open Street Map - OSM</a>. A base cartográfica foi obtida junto ao <a href="https://www.geofabrik.de/">Geofabrik</a>, nada data de 23 de agosto de 2016. Foi utilizado o recorte “Brasil”.</p>
+</div>
+<div id="aquisicao-das-rotas" class="section level4">
+<h4>Aquisição das rotas</h4>
+<p>As rotas entre os municípios foram consultadas através de API. Exemplo de query:</p>
+<pre><code>http://192.241.148.145:5000/route/v1/driving/-42.8179477877956,-22.9083992;-52.4089047,-28.2616137</code></pre>
+</div>
+</div>
 </div>
 </div>
 
