@@ -8,7 +8,8 @@ Construir e disponibilizar uma matriz de distâncias rodoviárias entre os 5.570
 Obter as distâncias para todas as 15.509.665 combinações possíveis. A utilização de APIs, como a do Google Maps, apresenta limitações diárias de requisições.
 
 ## Solução proposta
-Computar as distâncias utilizando a tecnologia do projeto [OSRM](http://project-osrm.org/).
+* Coordenadas dos municípios pelo [Nominatim](http://wiki.openstreetmap.org/wiki/Nominatim)
+* Computar as distâncias utilizando a tecnologia do projeto [OSRM](http://project-osrm.org/)
 
-### Apoio
+## Apoio
 Recebemos U$ 100 em créditos da [Digital Ocean](https://www.digitalocean.com/) para hospedarmos um servidor.
