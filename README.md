@@ -15,7 +15,7 @@ Recebemos U$ 100 em créditos da [Digital Ocean](https://www.digitalocean.com/) 
 Com os créditos fornecidos pela Digital Ocean, foi criado um servidor Ubuntu 16.04 para hospedagem do serviço de roteirização [OSRM](http://project-osrm.org/)  e para execução de scripts do software [R](https://www.r-project.org/), através do [RStudio Server](https://www.rstudio.com/products/rstudio/download-server/) edição comunitária.
 
 ### Municípios
-Foi considerada a lista de municípios brasileiros conforme a Divisão Territorial Brasileira (DTB/IBGE) de 2015  ([link](ftp://geoftp.ibge.gov.br/organizacao_do_territorio/estrutura_territorial/divisao_territorial/2015/dtb_2015.zip)).
+Foi considerada a lista de municípios brasileiros conforme a Divisão Territorial Brasileira (DTB/IBGE) de 2015  ([link](http://www.ibge.gov.br/home/geociencias/cartografia/default_dtb_int.shtm)).
 
 ### Coordenadas dos municípios
 Para o cômputo da rotas, é necessário informar as coordenadas de origem e destino dos municípios. Importante notar que as coordenadas dos centróides dos municípios não fazem sentido para o cômputo de rotas, sendo necessária a utilização de coordenadas referentes ao centro econômico ou viário do município.
