@@ -56,35 +56,36 @@ matrixRoutes <- function(target){
 # Bloco de teste
 teste <- pares[,1:100]
 ptm <- proc.time()
-matriz1 <- matrixRoutes(teste)
+matriz <- matrixRoutes(teste)
 proc.time() - ptm
 
 
-# Divide pares em pacotes
-sA <- 1
-sB <- 3101933
-sC <- sB + 1
-sD <- sC + 3101933
-sE <- sD + 1
-sF <- sE + 3101933
-sG <- sF + 1
-sH <- sG + 3101933
-sI <- sH + 1
-sJ <- ncol(pares)
+# Processa blocos de tamanho k e salva
+k <- 1000
+target <- pares
+n <- ncol(target)
 
-pares1 <- pares[,sA:sB]
-pares2 <- pares[,sC:sD]
-pares3 <- pares[,sE:sF]
-pares4 <- pares[,sG:sH]
-pares5 <- pares[,sI:sJ]
+count <- 0
+faltam <- n
+matriz <- data.frame()
 
-
-# Processa blocos
-
-# Pares 1
-ptm <- proc.time()
-matriz1 <- matrixRoutes(pares1)
-save(matriz1, file="matriz1.RData")
-proc.time() - ptm
-
-
+for(i in 1:n){
+  #print(paste("Coluna",i,"de",n))
+  count <- count+1 # Contador
+  result <- route(target[1,i], target[2,i]) # Resultado da rota
+  faltam <- faltam-1
+  if(length(result)==1){ # Sem resultado
+    result <- data.frame(origem=target[1,i], destino=target[2,i], tempo=NA, distancia=NA)
+  } else { # Com resultado
+    result <- data.frame(origem=target[1,i], destino=target[2,i], tempo=result[[1]], distancia=result[[2]])  
+  }
+  matriz <- rbind(matriz, result)
+  if(count == k){
+    print(paste0(date()," Salvando ", k, " consultas... Faltam: ",faltam))
+    save(matriz, file="matriz.RData")
+    save(i, file="last_i.RData")
+    count <- 0
+  }
+}
+save(matriz, file="matriz.RData")
+save(i, file="last_i.RData")
