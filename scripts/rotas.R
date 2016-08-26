@@ -36,42 +36,15 @@ choose(nrow(mun),2)
 nrow(pares)
 ncol(pares)
 
-# Matriz de distância e tempo
+# Computação em paralelo
 
-# Função para processamento em blocos
-matrixRoutes <- function(target){
-  matriz <- data.frame()
-  for(i in 1:ncol(target)){
-    result <- route(target[1,i], target[2,i])
-    if(length(result)==1){
-      result <- data.frame(origem=target[1,i], destino=target[2,i], tempo=NA, distancia=NA)
-    } else {
-      result <- data.frame(origem=target[1,i], destino=target[2,i], tempo=result[[1]], distancia=result[[2]])  
-    }
-    matriz <- rbind(matriz, result)
-  }
-  return(matriz)
-}
+library(doSNOW)
+library(foreach)
 
-# Bloco de teste
-teste <- pares[,1:100]
-ptm <- proc.time()
-matriz <- matrixRoutes(teste)
-proc.time() - ptm
-
-
-# Processa blocos de tamanho k e salva
-k <- 1000
-target <- pares
-n <- ncol(target)
-
-count <- 0
-faltam <- n
+cl<-makeCluster(7)
+registerDoSNOW(cl)
 matriz <- data.frame()
-
-for(i in 1:n){
-  #print(paste("Coluna",i,"de",n))
-  count <- count+1 # Contador
+matriz <- foreach(i=1:n,.combine=rbind) %dopar% {
   result <- route(target[1,i], target[2,i]) # Resultado da rota
   faltam <- faltam-1
   if(length(result)==1){ # Sem resultado
@@ -79,13 +52,8 @@ for(i in 1:n){
   } else { # Com resultado
     result <- data.frame(origem=target[1,i], destino=target[2,i], tempo=result[[1]], distancia=result[[2]])  
   }
-  matriz <- rbind(matriz, result)
-  if(count == k){
-    print(paste0(date()," Salvando ", k, " consultas... Faltam: ",faltam))
-    save(matriz, file="matriz.RData")
-    save(i, file="last_i.RData")
-    count <- 0
-  }
-}
+  result
+} 
 save(matriz, file="matriz.RData")
 save(i, file="last_i.RData")
+stopCluster(cl)
