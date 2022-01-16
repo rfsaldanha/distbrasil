@@ -1,9 +1,9 @@
 # Pacotes
 library(osrm)
 
-# Coordenadas dos municípios
-mun_coords <- readRDS(file = "scripts/mun_coords_df.rds")
-mun_pack_list <- readRDS(file = "scripts/mun_pack_list_cod.rds")
+# Coordenadas das sedes dos municípios
+mun_coords <- readRDS(file = "mun_coords_df.rds")
+mun_pack_list <- readRDS(file = "mun_pack_list_cod.rds")
 
 # Função para tratar matriz
 matrix_converter <- function(m, i, name_var){
@@ -82,10 +82,10 @@ for(i in 5453:nrow(mun_coords)){
   message(paste0(Sys.time(), " Município: ", i))
   res <- mun_table(i = i, w = 3)
   dist_brasil <- rbind(dist_brasil, res)
-  saveRDS(object = dist_brasil, file = "scripts/dist_brasil.rds", compress = FALSE)
-  saveRDS(object = i, file = "scripts/last_i.rds", compress = FALSE)
+  saveRDS(object = dist_brasil, file = "dist_brasil.rds", compress = FALSE)
+  saveRDS(object = i, file = "last_i.rds", compress = FALSE)
 }
 
-saveRDS(object = dist_brasil, file = "scripts/dist_brasil_compress.rds", compress = TRUE)
+saveRDS(object = dist_brasil, file = "dist_brasil_compress.rds", compress = TRUE)
 
 

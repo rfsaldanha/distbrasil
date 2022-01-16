@@ -5,3 +5,4 @@
 *.rds
 /scripts/*.rds
 .DS_Store
+*.gwt

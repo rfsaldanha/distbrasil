@@ -1,6 +1,6 @@
 library(tidyverse)
 
-dist_brasil <- readRDS(file = "scripts/dist_brasil.rds")
+dist_brasil <- readRDS(file = "dist_brasil.rds")
 
 dist_brasil2 <- dist_brasil %>% 
   distinct(orig, dest, .keep_all = TRUE) %>%
@@ -23,6 +23,4 @@ m_listw <- spdep::mat2listw(x = m_dist, row.names = unique(dist_brasil3$orig))
 
 m_sn <- spdep::listw2sn(listw = m_listw)
 
-spdep::write.sn2gwt(sn = m_sn, file = "scripts/wdat.gwt")
-
-#spdep::write.nb.gal(m_listw$neighbours, "scripts/wdat.gal")
+spdep::write.sn2gwt(sn = m_sn, file = "wdat.gwt")

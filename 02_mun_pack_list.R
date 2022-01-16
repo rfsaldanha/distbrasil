@@ -1,5 +1,5 @@
-# Coordenadas dos municípios
-mun_coords <- readRDS(file = "scripts/mun_coords_df.rds")
+# Coordenadas das sedes dos municípios
+mun_coords <- readRDS(file = "mun_coords_df.rds")
 
 # Divide as coordenadas dos municípios em 28 partes
 # (para atender os limites da API)
@@ -40,9 +40,4 @@ mun_pack_list <- list(pack01, pack02, pack03, pack04, pack05,
                   pack21, pack22, pack23, pack24, pack25,
                   pack26, pack27, pack28)
 
-saveRDS(object = mun_pack_list, file = "scripts/mun_pack_list_cod.rds")
-
-
-#teste <- osrmTable(loc = head(mun_coords, 99), measure = c("distance", "duration"))
-#teste2 <- osrmTable(src = mun_coords[1:200,], dst = mun_coords[1,], measure = c("distance", "duration"))
-#View(teste2$distances)
+saveRDS(object = mun_pack_list, file = "mun_pack_list_cod.rds")
