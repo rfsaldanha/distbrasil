@@ -2,8 +2,8 @@
 library(osrm)
 
 # Coordenadas dos municípios
-mun_coords <- readRDS(file = "scripts/mun_coords.rds")
-mun_pack_list <- readRDS(file = "scripts/mun_pack_list.rds")
+mun_coords <- readRDS(file = "scripts/mun_coords_df.rds")
+mun_pack_list <- readRDS(file = "scripts/mun_pack_list_cod.rds")
 
 # Função para tratar matriz
 matrix_converter <- function(m, i, name_var){
