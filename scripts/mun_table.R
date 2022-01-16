@@ -75,16 +75,17 @@ mun_table <- function(i, w = 1){
 
 
 # Objeto vazio para acumular respostas
-dist_brasil <- data.frame()
+# dist_brasil <- data.frame()
 
 # Obtem respostas
-for(i in 37:nrow(mun_coords)){
+for(i in 5453:nrow(mun_coords)){
   message(paste0(Sys.time(), " Município: ", i))
-  res <- mun_table(i = i, w = 1)
+  res <- mun_table(i = i, w = 3)
   dist_brasil <- rbind(dist_brasil, res)
-  saveRDS(object = dist_brasil, file = "scripts/dist_brasil.rds")
-  saveRDS(object = i, file = "scripts/last_i.rds")
+  saveRDS(object = dist_brasil, file = "scripts/dist_brasil.rds", compress = FALSE)
+  saveRDS(object = i, file = "scripts/last_i.rds", compress = FALSE)
 }
 
+saveRDS(object = dist_brasil, file = "scripts/dist_brasil_compress.rds", compress = TRUE)
 
 

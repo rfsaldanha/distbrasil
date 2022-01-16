@@ -1,7 +1,7 @@
 # Coordenadas dos municípios
 mun_coords <- readRDS(file = "scripts/mun_coords.rds")
 
-# Divide as coordenadas dos municípios em XX partes
+# Divide as coordenadas dos municípios em 28 partes
 # (para atender os limites da API)
 pack01 <- mun_coords[1:200,]
 pack02 <- mun_coords[201:400,]
