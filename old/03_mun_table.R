@@ -47,7 +47,7 @@ mun_table <- function(i, w = 3){
     # Inicia barra de progresso
     pb$tick(0)
     
-    # Espera 3 segundos para respeitar a API
+    # Espera w segundos em respeito a API
     Sys.sleep(time = w)
     
     # Obtem tabela de distâncias entre município i e pacote de municípios p
@@ -75,7 +75,7 @@ mun_table <- function(i, w = 3){
     # Guarda respostas no data.frame principal
     res <- rbind(res, tmp_res_pack_df)
     
-    #message(paste0(round(p/length(mun_pack_list)*100, 2), "% "), appendLF = FALSE)
+    # Atualiza barra de progresso
     pb$tick()
   }
   
@@ -87,6 +87,8 @@ mun_table <- function(i, w = 3){
 # Objeto vazio para acumular respostas
 # dist_brasil <- data.frame()
 # saveRDS(object = dist_brasil, file = "dist_brasil.rds", compress = FALSE)
+# i <- 0
+# saveRDS(object = i, file = "last_i.rds", compress = FALSE)
 
 # Carrega último arquivo salvo
 dist_brasil <- readRDS("dist_brasil.rds")
@@ -102,7 +104,7 @@ for(i in 1:nrow(mun_coords)){
     cli_alert_info("Município {i} já foi consultado. Indo para o seguinte.")
     next
   } else {
-    res <- mun_table(i = i, w = 3)
+    res <- mun_table(i = i, w = runif(1, 1, 5))
     dist_brasil <- rbind(dist_brasil, res)
     saveRDS(object = dist_brasil, file = "dist_brasil.rds", compress = FALSE)
     saveRDS(object = i, file = "last_i.rds", compress = FALSE)
