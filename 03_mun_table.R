@@ -1,5 +1,7 @@
 # Pacotes
 library(osrm)
+library(progress)
+library(cli)
 
 # Coordenadas das sedes dos municípios
 mun_coords <- readRDS(file = "mun_coords_df.rds")
@@ -33,10 +35,17 @@ matrix_converter <- function(m, i, name_var){
 
 
 # Função para coletar distâncias e durações para um município
-mun_table <- function(i, w = 1){
+mun_table <- function(i, w = 3){
   res <- data.frame()
   
+  # Barra de progresso
+  pb <- progress_bar$new(
+    format = "[:bar] :percent in :elapsed",
+    total = length(mun_pack_list), clear = FALSE, width= 60)
+  
   for(p in 1:length(mun_pack_list)){
+    # Inicia barra de progresso
+    pb$tick(0)
     
     # Espera 3 segundos para respeitar a API
     Sys.sleep(time = w)
@@ -66,7 +75,8 @@ mun_table <- function(i, w = 1){
     # Guarda respostas no data.frame principal
     res <- rbind(res, tmp_res_pack_df)
     
-    message(paste0(round(p/length(mun_pack_list)*100, 2), "% "), appendLF = FALSE)
+    #message(paste0(round(p/length(mun_pack_list)*100, 2), "% "), appendLF = FALSE)
+    pb$tick()
   }
   
   # Retorna resultado
@@ -76,14 +86,27 @@ mun_table <- function(i, w = 1){
 
 # Objeto vazio para acumular respostas
 # dist_brasil <- data.frame()
+# saveRDS(object = dist_brasil, file = "dist_brasil.rds", compress = FALSE)
+
+# Carrega último arquivo salvo
+dist_brasil <- readRDS("dist_brasil.rds")
 
 # Obtem respostas
-for(i in 5453:nrow(mun_coords)){
-  message(paste0(Sys.time(), " Município: ", i))
-  res <- mun_table(i = i, w = 3)
-  dist_brasil <- rbind(dist_brasil, res)
-  saveRDS(object = dist_brasil, file = "dist_brasil.rds", compress = FALSE)
-  saveRDS(object = i, file = "last_i.rds", compress = FALSE)
+for(i in 1:nrow(mun_coords)){
+  timestamp()
+  cli_inform("Município {i} de {nrow(mun_coords)}")
+  
+  # Verifica se o município já foi consultado
+  last_i <- readRDS("last_i.rds")
+  if(i <= last_i){
+    cli_alert_info("Município {i} já foi consultado. Indo para o seguinte.")
+    next
+  } else {
+    res <- mun_table(i = i, w = 3)
+    dist_brasil <- rbind(dist_brasil, res)
+    saveRDS(object = dist_brasil, file = "dist_brasil.rds", compress = FALSE)
+    saveRDS(object = i, file = "last_i.rds", compress = FALSE)
+  }
 }
 
 saveRDS(object = dist_brasil, file = "dist_brasil_compress.rds", compress = TRUE)
