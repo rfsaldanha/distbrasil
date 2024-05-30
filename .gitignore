@@ -7,3 +7,5 @@
 .DS_Store
 *.gwt
 mun_shapefile
+*.csv
+*.parquet
