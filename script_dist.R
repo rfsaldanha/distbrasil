@@ -79,7 +79,7 @@ for(m in 1:nrow(mun_coords)){
       dest_tmp <- subset(mun_coords, code_muni %in% dest_chunk[[n]])
       
       # Espera w segundos em respeito a API
-      Sys.sleep(time = runif(1, 1, 5))
+      Sys.sleep(time = runif(1, 1, 2))
       
       # Obtem tabela de distâncias entre município i e pacote de municípios p
       tmp_res_pack <- osrm::osrmTable(
