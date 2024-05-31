@@ -9,3 +9,5 @@
 mun_shapefile
 *.csv
 *.parquet
+*.zip
+export
